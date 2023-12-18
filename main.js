@@ -25,6 +25,8 @@ class GameScene extends Phaser.Scene{
     this.textTime
     this.timedEvent
     this.remainingTime
+    this.coinMusic
+    this.bgMusic
   }
 
   // load assets    ((key/class),(path to image))
@@ -32,10 +34,16 @@ class GameScene extends Phaser.Scene{
     this.load.image("bg", "/assets/bg.png")
     this.load.image("basket", "/assets/basket.png")
     this.load.image("apple", "/assets/apple.png")
+    this.load.audio("coin", "/assets/coin.mp3")
+    this.load.audio("bgMusic", "/assets/bgMusic.mp3")
   }
 
   // create actual sprite objects from loaded assets
   create(){
+    this.coinMusic = this.sound.add("coin")
+    this.bgMusic = this.sound.add("bgMusic")
+    this.bgMusic.play()
+    this.bgMusic.stop()
     // add a static image sprite
     this.add.image(0, 0, "bg").setOrigin(0, 0)
     // this is the "player" and create a physics-enabled image sprite
@@ -97,6 +105,7 @@ class GameScene extends Phaser.Scene{
   // then randomize position on x axis
   // then increment the player score
   targetHit() {
+    this.coinMusic.play()
     this.target.setY(0);
     this.target.setX(this.getRandomX())
     this.points++;
