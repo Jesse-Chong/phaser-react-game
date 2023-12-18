@@ -39,11 +39,11 @@ class GameScene extends Phaser.Scene{
   }
 
   update(){
-
     if (this.target.y >= sizes.height) {
       this.target.setY(0);
+      this.target.setX(this.getRandomX())
     }
-        const {left, right} = this.cursor;
+      const {left, right} = this.cursor;
     if (left.isDown) {
       this.player.setVelocityX(-this.playerSpeed);
     } else if (right.isDown) {
@@ -51,6 +51,15 @@ class GameScene extends Phaser.Scene{
     } else {
       this.player.setVelocityX(0);
     }
+  }
+
+  getRandomX() {
+    return Math.floor(Math.random() * 400);
+  }
+
+  targetHit() {
+    this.target.setY(0);
+    this.target.setX(this.getRandomX())
   }
 }
 
