@@ -26,6 +26,7 @@ class GameScene extends Phaser.Scene{
     // prevent basket from being affected by gravity (physics) ^^
     this.player.setImmovable(true)
     this.player.body.allowGravity = false
+    this.player.setCollideWorldBounds(true);
 
     this.cursor=this.input.keyboard.createCursorKeys()
   }
