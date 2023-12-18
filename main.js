@@ -18,6 +18,8 @@ class GameScene extends Phaser.Scene{
   create(){
     this.add.image(0, 0, "bg").setOrigin(0, 0)
     this.player = this.physics.add.image(0, sizes.height - 100, "basket").setOrigin(0, 0)
+    this.player.setImmovable(true);
+    this.player.body.allowGravity = false;
   }
   update(){}
 }
