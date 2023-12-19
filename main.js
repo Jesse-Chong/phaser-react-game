@@ -7,7 +7,13 @@ const sizes = {
 }
 
 // initialize a varialbe with downwards speed for physics system
-const speedDown = 100
+const speedDown = 500
+
+const gameStartDiv = document.querySelector("#gameStartDiv")
+const gameStartBtn = document.querySelector("#gameStartBtn")
+const gameEndDiv = document.querySelector("#gameEndDiv")
+const gameWinLoseSpan = document.querySelector("#gameWinLoseSpan")
+const gameEndScoreSpan = document.querySelector("#gameEndScoreSpan")
 
 
 class GameScene extends Phaser.Scene{
@@ -42,10 +48,10 @@ class GameScene extends Phaser.Scene{
 
   // create actual sprite objects from loaded assets
   create(){
+    this.scene.pause("scene-game")
     this.coinMusic = this.sound.add("coin")
     this.bgMusic = this.sound.add("bgMusic")
     this.bgMusic.play()
-    this.bgMusic.stop()
     // add a static image sprite
     this.add.image(0, 0, "bg").setOrigin(0, 0)
     // this is the "player" and create a physics-enabled image sprite
@@ -60,7 +66,7 @@ class GameScene extends Phaser.Scene{
     this.player.setSize(this.player.width-this.player.width/4, this.player.height/6).
     setOffset(this.player.width/10, this.player.height - this.player.height/10)
     // set max vertical velocity the apple can fall downwards
-    this.target =this.physics.add
+    this.target = this.physics.add
     .image(0, 0, "apple")
     .setOrigin(0, 0)
     this.target.setMaxVelocity(0, speedDown + 200);
@@ -76,7 +82,7 @@ class GameScene extends Phaser.Scene{
       font: "25px Arial",
       fill: "black"
     })
-    this.timedEvent = this.time.delayedCall(3000,this.gameOver, [], this)
+    this.timedEvent = this.time.delayedCall(15000,this.gameOver, [], this)
     this.emitter=this.add.particles(0, 0, "money", {
       speed: 100,
       gravityY: speedDown-200,
@@ -124,7 +130,15 @@ class GameScene extends Phaser.Scene{
   }
   
   gameOver() {
-    console.log("Game Over")
+    this.sys.game.destroy(true)
+    if(this.points >= 10) {
+      gameEndScoreSpan.textContent = this.points
+      gameWinLoseSpan.textContent = "Win! 👍"
+    } else {
+      gameEndScoreSpan.textContent = this.points
+      gameWinLoseSpan.textContent = "Lose! 😓"
+    }
+    gameEndDiv.style.display="flex"
   }
 }
 
@@ -150,3 +164,8 @@ const config = {
 }
 
 const game = new Phaser.Game(config);
+
+gameStartBtn.addEventListener("click", ()=>{
+  gameStartDiv.style.display="none"
+  game.scene.resume("scene-game")
+})
